@@ -11,6 +11,7 @@ $action = $_POST["action"];
 		<form action="#" method="POST">
 			<input name="un" type="text" placeholder="Username">
 			<input name="pass" type="password" placeholder="Password">
+			<input name="confirm" type="password" placeholder="Password">
 			<input name="action" type="hidden" value="create">
 			<button type="submit">Create</button>
 		</form>
@@ -27,6 +28,10 @@ $action = $_POST["action"];
 	<p>
 		<?php
 		if ($action=="create") {
+			if ($_POST["pass"] !== $_POST["confirm"]) {
+				echo "The two passwords you entered did not match!";
+				return false;
+			}
 			$arr = array($_POST["un"]=>md5($_POST["pass"]));
 			$wylst->add($arr);
 			echo "Successfully created.";

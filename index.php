@@ -12,6 +12,10 @@ $pie->go();
 
 $action = $_POST["action"];
 
+function ohNo() {
+	echo "<script>error=true;</script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,6 +99,10 @@ $action = $_POST["action"];
     <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
+    <script>
+    var error = false;
+    </script>
+
 </head>
 <body>
 
@@ -113,18 +121,29 @@ $action = $_POST["action"];
 	<div class="container main">
 
 		<?php if ($action) { ?>
-		<div class="alert alert-info alert-block">
+		<div class="alert alert-info alert-block" id="info">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<h4>
 				<?php
-				$time_start = microtime(true); 
+				$time_start = microtime(true);
 				if ($action=="create") {
-					if ($_POST["pass"] !== $_POST["confirm"]) {
-						echo "The two passwords you entered did not match!";
+					if ($_POST["un"] === "" || $_POST["pass"] === "") {
+						echo "Please fill out everything!";
+						ohNo();
 					} else {
-						$arr = array("u"=>$_POST["un"],"p"=>md5($_POST["pass"]));
-						$works->add($arr);
-						echo "Successfully created.";
+						if ($_POST["pass"] !== $_POST["confirm"]) {
+							echo "The two passwords you entered did not match!";
+							ohNo();
+						} else {
+							if ($works->exists("u",$_POST["un"])) {
+								echo "Username already exists!";
+								ohNo();
+							} else {
+								$arr = array("u"=>$_POST["un"],"p"=>md5($_POST["pass"]));
+								$works->add($arr);
+								echo "Successfully created.";
+							}
+						}
 					}
 				}
 				elseif ($action=="login") {
@@ -133,6 +152,7 @@ $action = $_POST["action"];
 					}
 					else {
 						echo "Oops, you entered your username or password wrong!";
+						ohNo();
 					}
 				};
 				?>
@@ -144,6 +164,12 @@ $action = $_POST["action"];
 			<h4>Hey there! Feel free to peek around and create an account (don't use your real password though, even if it's hashed).</h4>
 		</div>
 		<?php }; ?>
+
+		<script>
+		if (error) {
+			document.getElementById("info").className = "alert alert-block";
+		}
+		</script>
 
 		<form class="form-signin pull-right" action="#" method="POST">
 			<h2 class="form-signin-heading">Sign up!</h2>

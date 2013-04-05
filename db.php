@@ -63,6 +63,35 @@ class db {
 		$this->rw($wk);
 	}
 
+	function select($col) {
+		$old = file_get_contents($this->file);
+		if ($old) {
+			$wk = json_decode(file_get_contents($this->file),true);
+			$result = array();
+			$values = array();
+			if ($col === array()) {
+				foreach ($wk as $row) {
+					foreach (array_keys($row) as $c) {
+						$values[] = $row[$c];
+					};
+					$result[] = $values;
+					$values = array();;
+				}
+			} else {
+				foreach ($wk as $row) {
+					foreach ($col as $c) {
+						$values[] = $row[$c];
+					};
+					$result[] = $values;
+					$values = array();
+				}
+			};
+			return $result;
+		} else {
+			return ;
+		}
+	}
+
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
 	 * @param  array $ret

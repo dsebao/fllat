@@ -59,7 +59,7 @@ class db {
 		else {
 			$wk = array();
 		};
-		array_push($wk, $data);
+		$wk[] = $data;
 		$this->rw($wk);
 	}
 

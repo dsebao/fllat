@@ -88,7 +88,7 @@ class db {
 			return $result;
 		}
 		else {
-			die("Not found");
+			return ;
 		};
 	}
 
@@ -112,7 +112,24 @@ class db {
 			return $result;
 		}
 		else {
-			die("Not found");
+			return ;
+		};
+	}
+
+	function exists($key,$val) {
+		$old = file_get_contents($this->file);
+		if ($old) {
+			$wk = json_decode(file_get_contents($this->file),true);
+			$result = false;
+			foreach ($wk as $row) {
+				if ($row[$key] === $val) {
+					$result = true;
+				}
+			}
+			return $result;
+		}
+		else {
+			return false;
 		};
 	}
 

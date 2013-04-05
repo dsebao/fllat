@@ -37,6 +37,7 @@ $action = $_POST["action"];
 	</section>
 	<p>
 		<?php
+		$time_start = microtime(true); 
 		if ($action=="create") {
 			if ($_POST["pass"] !== $_POST["confirm"]) {
 				echo "The two passwords you entered did not match!";
@@ -54,6 +55,9 @@ $action = $_POST["action"];
 				echo "Oops, you entered your username or password wrong!";
 			}
 		};
+		$time_end = microtime(true);
+		$execution_time = ($time_end - $time_start);
+		echo '<br><b>Total Execution Time:</b> '.$execution_time.' Seconds';
 		?>
 	</p>
 </body>

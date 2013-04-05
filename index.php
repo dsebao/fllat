@@ -1,13 +1,23 @@
 <?php
 
 require("db.php");
+
+$works = new db("works");
+$works->go();
+
+$pie = new db("pie");
+$pie->go();
+
 $action = $_POST["action"];
 
 ?>
 <html>
+<head>
+	<title>Fllat</title>
+</head>
 <body>
 	<section>
-		<h1>Create</h1>
+		<h1>Sign up.</h1>
 		<form action="#" method="POST">
 			<input name="un" type="text" placeholder="Username">
 			<input name="pass" type="password" placeholder="Password">
@@ -32,18 +42,18 @@ $action = $_POST["action"];
 				echo "The two passwords you entered did not match!";
 				return false;
 			}
-			$arr = array($_POST["un"]=>md5($_POST["pass"]));
-			$wylst->add($arr);
+			$arr = array("u"=>$_POST["un"],"p"=>md5($_POST["pass"]));
+			$works->add($arr);
 			echo "Successfully created.";
 		}
 		elseif ($action=="login") {
-			if (md5($_POST["pass"]) === $wylst->get($_POST["un"])) {
+			if (md5($_POST["pass"]) === $works->get("p","u",$_POST["un"])) {
 				echo "Welcome, ".ucfirst($_POST["un"])."!";
 			}
 			else {
-				echo "Try again.";
+				echo "Oops, you entered your username or password wrong!";
 			}
-		}
+		};
 		?>
 	</p>
 </body>

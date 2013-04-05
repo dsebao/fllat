@@ -2,11 +2,19 @@
 
 class db {
 
+	/**
+	 * Create a database
+	 * @param string $name
+	 */
 	function __construct($name) {
 		$this->name = $name;
 		$this->file = 'db/'.$this->name.'.dat';
 	}
 
+	/**
+	 * Initialize database for work and returns database status
+	 * @return string
+	 */
 	function go() {
 		if (file_exists($this->file)) {
 			return "Database '".$this->name."' already exists.";
@@ -17,6 +25,10 @@ class db {
 		}
 	}
 
+	/**
+	 * Delete database
+	 * @return string
+	 */
 	function rm() {
 		if (file_exists($this->file)) {
 			unlink($this->file);
@@ -27,41 +39,83 @@ class db {
 		}
 	}
 
+	/**
+	 * Rewrite data
+	 * @param  Array $data
+	 */
 	function rw($data) {
 		file_put_contents($this->file, json_encode($data));
 	}
 
+	/**
+	 * Appends data to database
+	 * @param array $data
+	 */
 	function add($data) {
 		$old = file_get_contents($this->file);
 		if ($old) {
 			$wk = json_decode(file_get_contents($this->file),true);
 		}
 		else {
-			$wk = [];
+			$wk = array();
 		};
-		$wk[array_keys($data)[0]] = $data[array_keys($data)[0]];
+		array_push($wk, $data);
 		$this->rw($wk);
 	}
 
-	function get($key) {
+	/**
+	 * Get the row where the value matches that of the key and return the value of the other key
+	 * @param  array $ret
+	 * @param  string $key
+	 * @param  string $val
+	 * @return array
+	 */
+	function where($ret,$key,$val) {
 		$old = file_get_contents($this->file);
 		if ($old) {
 			$wk = json_decode(file_get_contents($this->file),true);
-			if ($wk[$key]) {
-				return $wk[$key];
+			$result = array();
+			$values = array();
+			foreach ($wk as $rw) {
+				if ($rw[$key] === $val) {
+					foreach ($ret as $col) {
+						$values[] = $rw[$col];
+					};
+					$result[] = $values;
+					$values = array();
+				};
 			}
-			else {
-				return "Not found.";
-			}
+			return $result;
 		}
 		else {
-			return "Not found.";
+			die("Not found");
+		};
+	}
+
+	/**
+	 * Get the row where the value matches that of the key and return the value of the other key
+	 * @param  string $ret
+	 * @param  string $key
+	 * @param  string $val
+	 * @return array
+	 */
+	function get($ret,$key,$val) {
+		$old = file_get_contents($this->file);
+		if ($old) {
+			$wk = json_decode(file_get_contents($this->file),true);
+			$result = array();
+			foreach ($wk as $row) {
+				if ($row[$key] === $val && $row[$ret]) {
+					return $row[$ret];
+				}
+			}
+			return $result;
+		}
+		else {
+			die("Not found");
 		};
 	}
 
 }
-
-$wylst = new db("wylst");
-$wylst->go();
 
 ?>

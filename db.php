@@ -1,14 +1,15 @@
 <?php
 
-class db {
+class Database
+{
 
 	/**
 	 * Create a database
 	 * @param string $name
 	 */
 	function __construct($name) {
-		$this->name = $name;
-		$this->file = 'db/'.$this->name.'.dat';
+		$this -> name = $name;
+		$this -> file = 'db/'.$this -> name.'.dat';
 	}
 
 	/**
@@ -16,12 +17,12 @@ class db {
 	 * @return string
 	 */
 	function go() {
-		if (file_exists($this->file)) {
-			return "Database '".$this->name."' already exists.";
+		if (file_exists($this -> file)) {
+			return "Database '".$this -> name."' already exists.";
 		}
 		else {
-			file_put_contents($this->file, "");
-			return "Database '".$this->name."' successfully created.";
+			file_put_contents($this -> file, "");
+			return "Database '".$this -> name."' successfully created.";
 		}
 	}
 
@@ -30,12 +31,12 @@ class db {
 	 * @return string
 	 */
 	function rm() {
-		if (file_exists($this->file)) {
-			unlink($this->file);
-			return "Database '".$this->name."' successfully deleted.";
+		if (file_exists($this -> file)) {
+			unlink($this -> file);
+			return "Database '".$this -> name."' successfully deleted.";
 		}
 		else {
-			return "Database '".$this->name."' doesn't exist.";
+			return "Database '".$this -> name."' doesn't exist.";
 		}
 	}
 
@@ -44,7 +45,7 @@ class db {
 	 * @param  Array $data
 	 */
 	function rw($data) {
-		file_put_contents($this->file, json_encode($data));
+		file_put_contents($this -> file, json_encode($data));
 	}
 
 	/**
@@ -52,21 +53,21 @@ class db {
 	 * @param array $data
 	 */
 	function add($data) {
-		$old = file_get_contents($this->file);
+		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this->file),true);
+			$wk = json_decode(file_get_contents($this -> file),true);
 		}
 		else {
 			$wk = array();
 		};
 		$wk[] = $data;
-		$this->rw($wk);
+		$this -> rw($wk);
 	}
 
 	function select($col) {
-		$old = file_get_contents($this->file);
+		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this->file),true);
+			$wk = json_decode(file_get_contents($this -> file),true);
 			$result = array();
 			$values = array();
 			if ($col === array()) {
@@ -100,9 +101,9 @@ class db {
 	 * @return array
 	 */
 	function where($ret,$key,$val) {
-		$old = file_get_contents($this->file);
+		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this->file),true);
+			$wk = json_decode(file_get_contents($this -> file),true);
 			$result = array();
 			$values = array();
 			foreach ($wk as $rw) {
@@ -129,9 +130,9 @@ class db {
 	 * @return array
 	 */
 	function get($ret,$key,$val) {
-		$old = file_get_contents($this->file);
+		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this->file),true);
+			$wk = json_decode(file_get_contents($this -> file),true);
 			$result = array();
 			foreach ($wk as $row) {
 				if ($row[$key] === $val && $row[$ret]) {
@@ -146,9 +147,9 @@ class db {
 	}
 
 	function exists($key,$val) {
-		$old = file_get_contents($this->file);
+		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this->file),true);
+			$wk = json_decode(file_get_contents($this -> file),true);
 			$result = false;
 			foreach ($wk as $row) {
 				if ($row[$key] === $val) {

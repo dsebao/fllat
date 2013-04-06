@@ -4,11 +4,11 @@ $time_start = microtime(true);
 
 require("db.php");
 
-$works = new db("works");
-$works->go();
+$works = new Database("works");
+$works -> go();
 
-$pie = new db("pie");
-$pie->go();
+$pie = new Database("pie");
+$pie -> go();
 
 $action = $_POST["action"];
 
@@ -126,7 +126,7 @@ function ohNo() {
 			<h4>
 				<?php
 				$time_start = microtime(true);
-				if ($action=="create") {
+				if ($action === "create") {
 					if ($_POST["un"] === "" || $_POST["pass"] === "") {
 						echo "Please fill out everything!";
 						ohNo();
@@ -135,19 +135,19 @@ function ohNo() {
 							echo "The two passwords you entered did not match!";
 							ohNo();
 						} else {
-							if ($works->exists("u",$_POST["un"])) {
+							if ($works -> exists("u", $_POST["un"])) {
 								echo "Username already exists!";
 								ohNo();
 							} else {
-								$arr = array("u"=>$_POST["un"],"p"=>md5($_POST["pass"]));
-								$works->add($arr);
+								$arr = array("u" => $_POST["un"], "p" => md5($_POST["pass"]));
+								$works -> add($arr);
 								echo "Successfully created.";
 							}
 						}
 					}
 				}
-				elseif ($action=="login") {
-					if (md5($_POST["pass"]) === $works->get("p","u",$_POST["un"])) {
+				elseif ($action === "login") {
+					if (md5($_POST["pass"]) === $works -> get("p", "u", $_POST["un"])) {
 						echo "Welcome, ".ucfirst($_POST["un"])."!";
 					}
 					else {
@@ -161,7 +161,7 @@ function ohNo() {
 		<?php } else { ?>
 		<div class="alert alert-info alert-block">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h4>Hey there! Feel free to peek around and create an account (don't use your real password though, even if it's hashed).</h4>
+			<h4>Hey there! Feel free to poke around and create an account (don't use your real password, though).</h4>
 		</div>
 		<?php }; ?>
 

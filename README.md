@@ -30,3 +30,7 @@ And you're ready to go! For a guide to the functions (like everything else, stil
 ## Contributing
 
 Feel free to contribute by creating issues (search to see if the same issue has already been submitted beforehand) and submitting pull requests if you feel comfortable doing so.
+
+## License
+
+Fllat is licensed for use under the terms stated in the [LICENSE.md](https://raw.github.com/alfredxing/fllat/master/LICENSE.md) file.

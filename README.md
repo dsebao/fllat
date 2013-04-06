@@ -1,7 +1,7 @@
 Fllat
 =====
 
-*An attempt at a flat-file, PHP-driven database system. Data is stored in JSON format.*
+*An attempt at a flat file database system. Driven by PHP. Stores data in JSON. SQL based data fetching.*
 
 ## Introduction
 

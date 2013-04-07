@@ -227,6 +227,40 @@ class Fllat
 		}
 	}
 
+	function like($cols,$key,$regex) {
+		$old = file_get_contents($this -> file);
+		if ($old) {
+			$db = json_decode(file_get_contents($this -> file),true);
+			$result = array();
+			$values = array();
+			if ($cols === array()) {
+				foreach ($db as $row) {
+					if (preg_match($regex, $row[$key])) {
+						foreach (array_keys($row) as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
+					}
+				}
+			} else {
+				foreach ($db as $row) {
+					if (preg_match($regex, $row[$key])) {
+						foreach ((array) $cols as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
+					};
+				}
+			}
+			return $result;
+		}
+		else {
+			return ;
+		}
+	}
+
 }
 
 ?>

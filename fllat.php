@@ -6,9 +6,9 @@
  *
  * PHP version 5
  *
- * @author  Alfred Xing <http://alfredxing.com>
- * @copyright  MMXIII Alfred Xing
- * @license  LICENSE.md MIT License
+ * @author    Alfred Xing
+ * @copyright 2013 Alfred Xing
+ * @license   LICENSE.md MIT License
  * 
  */
 

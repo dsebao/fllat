@@ -25,6 +25,14 @@ $pie = new Database("pie");
 $pie -> go();
 ```
 
+You can also use relative paths to direct Fllat to where the `db.php` and database folder is:
+```php
+require("../db.php");
+
+$pie = new Database("pie", "../db");
+$pie -> go();
+```
+
 ### Storing data
 
 Storing data into the database you created is easy! Just use one of the data-storing function provided:

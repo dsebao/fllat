@@ -66,6 +66,52 @@ class Database
 	}
 
 	/**
+	 * Get the row where the value matches that of the key and return the value of the other key
+	 * @param  string $col
+	 * @param  string $key
+	 * @param  string $val
+	 * @return array
+	 */
+	function get($col,$key,$val) {
+		$old = file_get_contents($this -> file);
+		if ($old) {
+			$db = json_decode(file_get_contents($this -> file),true);
+			foreach ($db as $row) {
+				if ($row[$key] === $val && $row[$col]) {
+					return $row[$col];
+					break;
+				}
+			}
+		}
+		else {
+			return ;
+		}
+	}
+
+	/**
+	 * Checks whether the given key/value pair exists
+	 * @param  string  $key the key
+	 * @param  string  $val the value
+	 * @return boolean      whether the pair exists
+	 */
+	function exists($key,$val) {
+		$old = file_get_contents($this -> file);
+		if ($old) {
+			$db = json_decode(file_get_contents($this -> file),true);
+			$result = false;
+			foreach ($db as $row) {
+				if ($row[$key] === $val) {
+					$result = true;
+				}
+			}
+			return $result;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get a set of columns for all rows
 	 * @param  array $cols the list of columns to get, empty for all
 	 * @return array
@@ -86,13 +132,13 @@ class Database
 				}
 			} else {
 				foreach ($db as $row) {
-					foreach ($cols as $c) {
+					foreach ((array) $cols as $c) {
 						$values[$c] = $row[$c];
 					};
 					$result[] = $values;
 					$values = array();
 				}
-			};
+			}
 			return $result;
 		} else {
 			return ;
@@ -101,7 +147,7 @@ class Database
 
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
-	 * @param  array $cols
+	 * @param  array  $cols
 	 * @param  string $key
 	 * @param  string $val
 	 * @return array
@@ -125,7 +171,7 @@ class Database
 			} else {
 				foreach ($db as $row) {
 					if ($row[$key] === $val) {
-						foreach ($cols as $c) {
+						foreach ((array) $cols as $c) {
 							$values[$c] = $row[$c];
 						};
 						$result[] = $values;
@@ -137,47 +183,48 @@ class Database
 		}
 		else {
 			return ;
-		};
+		}
 	}
 
 	/**
-	 * Get the row where the value matches that of the key and return the value of the other key
-	 * @param  string $col
-	 * @param  string $key
-	 * @param  string $val
+	 * Get columns from rows in which the key's value is part of the inputted array of values
+	 * @param  array  $cols  the columns to return
+	 * @param  string $key   the column to look for the value
+	 * @param  array  $val   an array of values to be accepted
 	 * @return array
 	 */
-	function get($col,$key,$val) {
+	function in($cols, $key, $val) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
 			$db = json_decode(file_get_contents($this -> file),true);
-			foreach ($db as $row) {
-				if ($row[$key] === $val && $row[$col]) {
-					return $row[$col];
-					break;
+			$result = array();
+			$values = array();
+			if ($cols === array()) {
+				foreach ($db as $row) {
+					if (in_array($row[$key],$val)) {
+						foreach (array_keys($row) as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
+					}
 				}
-			}
-		}
-		else {
-			return ;
-		};
-	}
-
-	function exists($key,$val) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode(file_get_contents($this -> file),true);
-			$result = false;
-			foreach ($db as $row) {
-				if ($row[$key] === $val) {
-					$result = true;
+			} else {
+				foreach ($db as $row) {
+					if (in_array($row[$key],$val)) {
+						foreach ((array) $cols as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
+					};
 				}
 			}
 			return $result;
 		}
 		else {
-			return false;
-		};
+			return ;
+		}
 	}
 
 }

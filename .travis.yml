@@ -8,4 +8,4 @@ notifications:
 before_script:
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
-script: phpcs --tab-width=4 --error-severity=5 --warning-severity=8 fllat.php
+script: phpcs --tab-width=4 --error-severity=6 --warning-severity=6 fllat.php

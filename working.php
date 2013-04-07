@@ -8,17 +8,8 @@ echo $pie->go() . "\n";
 $users = array(array("first" => "Bob", "last" => "Smith"), array("first" => "John", "last" => "Doe"));
 $pie -> rw($users);
 $pie -> add(array("first" => "Jane", "last" => "Doe"));
+$pie -> add(array("first" => "Tom", "last" => "Wales"));
 
-if ($pie -> exists("last", "Smith")) {
-	echo "Exists";
-} else {
-	echo "Does not exist";
-}
-
-if ($pie -> exists("last", "Brown")) {
-	echo "Exists";
-} else {
-	echo "Does not exist";
-}
+print_r($pie -> in(array(), "last", array("Smith", "Wales")));
 
 ?>

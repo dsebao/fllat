@@ -8,4 +8,4 @@ notifications:
 before_script:
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
-script: phpcs fllat.php
+script: phpcs --tab-width=4 -i fllat.php

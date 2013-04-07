@@ -4,7 +4,7 @@ php:
   - "5.3"
 notifications:
   email: false
-before-script:
+before_script:
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
 script: phpcs fllat.php

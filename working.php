@@ -2,15 +2,23 @@
 
 require("db.php");
 $pie = new Database("pie");
-$pie->go();
+echo $pie->go() . "\n";
+echo $pie->go() . "\n";
 
-$slurp = array("name" => "smoothie", "price" => "4.99");
-$chomp = array("name" => "cookie", "price" => "2.99");
-$nom = array("name" => "bacon", "price" => "0.00");
-$pie -> rw(array($slurp, $chomp, $nom));
+$users = array(array("first" => "Bob", "last" => "Smith"), array("first" => "John", "last" => "Doe"));
+$pie -> rw($users);
+$pie -> add(array("first" => "Jane", "last" => "Doe"));
 
-echo $pie -> get("price", "name", "bacon") . "<br>";
-echo json_encode($pie -> select(array())) . "<br>"; // Returns the whole thing (too long to list here)
-echo json_encode($pie -> select(array("name")));
+if ($pie -> exists("last", "Smith")) {
+	echo "Exists";
+} else {
+	echo "Does not exist";
+}
+
+if ($pie -> exists("last", "Brown")) {
+	echo "Exists";
+} else {
+	echo "Does not exist";
+}
 
 ?>

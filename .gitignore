@@ -2,6 +2,8 @@
 sftp-config.json
 *.dat
 
+pages/
+
 #################
 ## Eclipse
 #################

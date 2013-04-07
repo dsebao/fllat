@@ -7,9 +7,10 @@ class Database
 	 * Create a database
 	 * @param string $name
 	 */
-	function __construct($name) {
+	function __construct($name, $path = "db") {
 		$this -> name = $name;
-		$this -> file = 'db/'.$this -> name.'.dat';
+		$this -> path = $path;
+		$this -> file = realpath($path . "/" . $this -> name . '.dat');
 	}
 
 	/**
@@ -55,33 +56,38 @@ class Database
 	function add($data) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this -> file),true);
+			$db = json_decode(file_get_contents($this -> file),true);
 		}
 		else {
-			$wk = array();
+			$db = array();
 		};
-		$wk[] = $data;
-		$this -> rw($wk);
+		$db[] = $data;
+		$this -> rw($db);
 	}
 
-	function select($col) {
+	/**
+	 * Get a set of columns for all rows
+	 * @param  array $cols the list of columns to get, empty for all
+	 * @return array
+	 */
+	function select($cols) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this -> file),true);
+			$db = json_decode(file_get_contents($this -> file),true);
 			$result = array();
 			$values = array();
-			if ($col === array()) {
-				foreach ($wk as $row) {
+			if ($cols === array()) {
+				foreach ($db as $row) {
 					foreach (array_keys($row) as $c) {
-						$values[] = $row[$c];
+						$values[$c] = $row[$c];
 					};
 					$result[] = $values;
 					$values = array();;
 				}
 			} else {
-				foreach ($wk as $row) {
-					foreach ($col as $c) {
-						$values[] = $row[$c];
+				foreach ($db as $row) {
+					foreach ($cols as $c) {
+						$values[$c] = $row[$c];
 					};
 					$result[] = $values;
 					$values = array();
@@ -95,25 +101,37 @@ class Database
 
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
-	 * @param  array $ret
+	 * @param  array $cols
 	 * @param  string $key
 	 * @param  string $val
 	 * @return array
 	 */
-	function where($ret,$key,$val) {
+	function where($cols,$key,$val) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this -> file),true);
+			$db = json_decode(file_get_contents($this -> file),true);
 			$result = array();
 			$values = array();
-			foreach ($wk as $rw) {
-				if ($rw[$key] === $val) {
-					foreach ($ret as $col) {
-						$values[] = $rw[$col];
+			if ($cols === array()) {
+				foreach ($db as $row) {
+					if ($row[$key] === $val) {
+						foreach (array_keys($row) as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
+					}
+				}
+			} else {
+				foreach ($db as $row) {
+					if ($row[$key] === $val) {
+						foreach ($cols as $c) {
+							$values[$c] = $row[$c];
+						};
+						$result[] = $values;
+						$values = array();
 					};
-					$result[] = $values;
-					$values = array();
-				};
+				}
 			}
 			return $result;
 		}
@@ -124,22 +142,21 @@ class Database
 
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
-	 * @param  string $ret
+	 * @param  string $col
 	 * @param  string $key
 	 * @param  string $val
 	 * @return array
 	 */
-	function get($ret,$key,$val) {
+	function get($col,$key,$val) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this -> file),true);
-			$result = array();
-			foreach ($wk as $row) {
-				if ($row[$key] === $val && $row[$ret]) {
-					return $row[$ret];
+			$db = json_decode(file_get_contents($this -> file),true);
+			foreach ($db as $row) {
+				if ($row[$key] === $val && $row[$col]) {
+					return $row[$col];
+					break;
 				}
 			}
-			return $result;
 		}
 		else {
 			return ;
@@ -149,9 +166,9 @@ class Database
 	function exists($key,$val) {
 		$old = file_get_contents($this -> file);
 		if ($old) {
-			$wk = json_decode(file_get_contents($this -> file),true);
+			$db = json_decode(file_get_contents($this -> file),true);
 			$result = false;
-			foreach ($wk as $row) {
+			foreach ($db as $row) {
 				if ($row[$key] === $val) {
 					$result = true;
 				}

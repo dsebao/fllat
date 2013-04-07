@@ -82,6 +82,11 @@ Fllat is *extremely* flexibile. Perhaps too much so; it will `json_encode` any d
 
 Feel free to contribute by creating issues (search to see if the same issue has already been submitted beforehand) and submitting pull requests if you feel comfortable doing so.
 
-## License
+## Meta
+
+### Build status
+[![Build Status](https://travis-ci.org/alfredxing/fllat.png?branch=master)](https://travis-ci.org/alfredxing/fllat)
+
+### License
 
 Fllat is licensed for use under the terms stated in the [LICENSE.md](https://raw.github.com/alfredxing/fllat/master/LICENSE.md) file.

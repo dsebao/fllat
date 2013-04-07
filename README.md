@@ -22,7 +22,6 @@ require("fllat.php");
 Now it's time to create and initialize a new database. This is used even if the database exists.
 ```php
 $pie = new Fllat("pie");
-$pie -> go();
 ```
 
 You can also use relative paths to direct Fllat to where the `db.php` and database folder is:
@@ -30,7 +29,6 @@ You can also use relative paths to direct Fllat to where the `db.php` and databa
 require("../fllat.php");
 
 $pie = new Fllat("pie", "../db");
-$pie -> go();
 ```
 
 ### Storing data

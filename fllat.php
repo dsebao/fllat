@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Fllat: A flat file database system. Driven by PHP. Stores data in JSON. SQL based data fetching.
+ * 
+ * Copyright MMXIII Alfred Xing http://alfredxing.com/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sublicense copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+require("prequel.php");
+
 class Fllat
 {
 
@@ -57,15 +69,15 @@ class Fllat
 	 * @param array $data
 	 */
 	function add($data) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode(file_get_contents($this -> file),true);
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode(file_get_contents($this -> file),true);
 		}
 		else {
-			$db = array();
+			$_db = array();
 		};
-		$db[] = $data;
-		$this -> rw($db);
+		$_db[] = $data;
+		$this -> rw($_db);
 	}
 
 	/**
@@ -76,10 +88,10 @@ class Fllat
 	 * @return array
 	 */
 	function get($col,$key,$val) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			foreach ($db as $row) {
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			foreach ($_db as $row) {
 				if ($row[$key] === $val && $row[$col]) {
 					return $row[$col];
 					break;
@@ -98,16 +110,16 @@ class Fllat
 	 * @return boolean      whether the pair exists
 	 */
 	function exists($key,$val) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			$result = false;
-			foreach ($db as $row) {
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = false;
+			foreach ($_db as $row) {
 				if ($row[$key] === $val) {
-					$result = true;
+					$_result = true;
 				}
 			}
-			return $result;
+			return $_result;
 		}
 		else {
 			return false;
@@ -120,32 +132,32 @@ class Fllat
 	 * @return array
 	 */
 	function select($cols = array()) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			$result = array();
-			$values = array();
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = array();
+			$_values = array();
 			if ($cols === array()) {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					foreach (array_keys($row) as $c) {
-						$values[$c] = $row[$c];
+						$_values[$c] = $row[$c];
 					};
 					if (values)
-						$result[] = $values;
-					$values = array();;
+						$_result[] = $_values;
+					$_values = array();;
 				}
 			} else {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					foreach ((array) $cols as $c) {
 						if ($row[$c])
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 					};
-					if ($values)
-						$result[] = $values;
-					$values = array();
+					if ($_values)
+						$_result[] = $_values;
+					$_values = array();
 				}
 			}
-			return $result;
+			return $_result;
 		} else {
 			return ;
 		}
@@ -159,33 +171,33 @@ class Fllat
 	 * @return array
 	 */
 	function where($cols,$key,$val) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			$result = array();
-			$values = array();
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = array();
+			$_values = array();
 			if ($cols === array()) {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if ($row[$key] === $val) {
 						foreach (array_keys($row) as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					}
 				}
 			} else {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if ($row[$key] === $val) {
 						foreach ((array) $cols as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					};
 				}
 			}
-			return $result;
+			return $_result;
 		}
 		else {
 			return ;
@@ -200,33 +212,33 @@ class Fllat
 	 * @return array
 	 */
 	function in($cols, $key, $val) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			$result = array();
-			$values = array();
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = array();
+			$_values = array();
 			if ($cols === array()) {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if (in_array($row[$key],$val)) {
 						foreach (array_keys($row) as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					}
 				}
 			} else {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if (in_array($row[$key],$val)) {
 						foreach ((array) $cols as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					};
 				}
 			}
-			return $result;
+			return $_result;
 		}
 		else {
 			return ;
@@ -241,33 +253,33 @@ class Fllat
 	 * @return array
 	 */
 	function like($cols,$key,$regex) {
-		$old = file_get_contents($this -> file);
-		if ($old) {
-			$db = json_decode($old, true);
-			$result = array();
-			$values = array();
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = array();
+			$_values = array();
 			if ($cols === array()) {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if (preg_match($regex, $row[$key])) {
 						foreach (array_keys($row) as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					}
 				}
 			} else {
-				foreach ($db as $row) {
+				foreach ($_db as $row) {
 					if (preg_match($regex, $row[$key])) {
 						foreach ((array) $cols as $c) {
-							$values[$c] = $row[$c];
+							$_values[$c] = $row[$c];
 						};
-						$result[] = $values;
-						$values = array();
+						$_result[] = $_values;
+						$_values = array();
 					};
 				}
 			}
-			return $result;
+			return $_result;
 		}
 		else {
 			return ;
@@ -289,7 +301,14 @@ class Fllat
 		));
 	}
 
-
+	/**
+	 * Matches and merges columns between 
+	 * @param  string $method  the method to join (inner, left, right, full)
+	 * @param  array  $cols    the columns to select
+	 * @param  Fllat  $second  the second database to consider
+	 * @param  array  $match   a key-value pair: left column to match => right column
+	 * @return array           joined array
+	 */
 	function join($method, $cols, $second, $match) {
 		$_left = file_get_contents($this -> file);
 		$_right = file_get_contents($second -> file);
@@ -301,7 +320,7 @@ class Fllat
 			if ($method === "inner") {
 				foreach ($_left as $lrow) {
 					foreach ($_right as $rrow) {
-						if ($lrow[$match[0]] === $rrow[$match[1]]) {
+						if ($lrow[array_keys($match)[0]] === $rrow[array_values($match)[0]]) {
 							$_result[] = array_merge($lrow, $rrow);
 						}
 					}
@@ -309,7 +328,7 @@ class Fllat
 			} elseif ($method === "left") {
 				foreach ($_left as $lrow) {
 					foreach ($_right as $rrow) {
-						if ($lrow[$match[0]] === $rrow[$match[1]]) {
+						if ($lrow[array_keys($match)[0]] === $rrow[array_values($match)[0]]) {
 							$_values = array_merge($lrow, $rrow);
 							break;
 						} else {
@@ -322,7 +341,7 @@ class Fllat
 			} elseif ($method === "right") {
 				foreach ($_left as $lrow) {
 					foreach ($_right as $rrow) {
-						if ($lrow[$match[0]] === $rrow[$match[1]]) {
+						if ($lrow[array_keys($match)[0]] === $rrow[array_values($match)[0]]) {
 							$_values = array_merge($lrow, $rrow);
 							break;
 						} else {
@@ -341,7 +360,7 @@ class Fllat
 						))
 				));
 			}
-			return $_result;
+			return $GLOBALS["prequel"] -> select($cols, $_result);
 		}
 		else {
 			return ;

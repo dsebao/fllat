@@ -14,22 +14,22 @@ The awesomest part is that there are **no running services**, just pure PHP at w
 Simply pull this git repository or [download the archive](https://github.com/alfredxing/fllat/zipball/master) and run it on a PHP-enabled server.
 
 ### Accessing Fllat
-To access Fllat from any PHP file, `require` the `db.php` file:
+To access Fllat from any PHP file, `require` the `fllat.php` file:
 ```php
-require("db.php");
+require("fllat.php");
 ```
 
 Now it's time to create and initialize a new database. This is used even if the database exists.
 ```php
-$pie = new Database("pie");
+$pie = new Fllat("pie");
 $pie -> go();
 ```
 
 You can also use relative paths to direct Fllat to where the `db.php` and database folder is:
 ```php
-require("../db.php");
+require("../fllat.php");
 
-$pie = new Database("pie", "../db");
+$pie = new Fllat("pie", "../db");
 $pie -> go();
 ```
 

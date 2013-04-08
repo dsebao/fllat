@@ -23,7 +23,7 @@ class Prequel
 	 * 
 	 * @return array
 	 */
-	function select($cols = array(), $db)
+	function select($cols, $db)
 	{
 		$_result = array();
 		$_values = array();
@@ -33,7 +33,7 @@ class Prequel
 					$_values[$c] = $row[$c];
 				};
 				if ($_values)
-					$_result[] = $values;
+					$_result[] = $_values;
 				$_values = array();
 			}
 		} else {

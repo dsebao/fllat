@@ -64,6 +64,7 @@ class Fllat
 		}
 	}
 
+
 	/**
 	 * Rewrite data
 	 * 
@@ -91,6 +92,7 @@ class Fllat
 		$this -> rw($_db);
 	}
 
+
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
 	 * 
@@ -113,31 +115,6 @@ class Fllat
 			}
 		} else {
 			return ;
-		}
-	}
-
-	/**
-	 * Checks whether the given key/value pair exists
-	 * 
-	 * @param string $key the key
-	 * @param string $val the value
-	 * 
-	 * @return boolean whether the pair exists
-	 */
-	function exists($key,$val)
-	{
-		$_old = file_get_contents($this -> file);
-		if ($_old) {
-			$_db = json_decode($_old, true);
-			$_result = false;
-			foreach ($_db as $row) {
-				if ($row[$key] === $val) {
-					$_result = true;
-				}
-			}
-			return $_result;
-		} else {
-			return false;
 		}
 	}
 
@@ -310,6 +287,7 @@ class Fllat
 		}
 	}
 
+
 	/**
 	 * Merges two databases and gets rid of duplicates
 	 * 
@@ -407,6 +385,32 @@ class Fllat
 		}
 	}
 
+
+	/**
+	 * Checks whether the given key/value pair exists
+	 * 
+	 * @param string $key the key
+	 * @param string $val the value
+	 * 
+	 * @return boolean whether the pair exists
+	 */
+	function exists($key,$val)
+	{
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode($_old, true);
+			$_result = false;
+			foreach ($_db as $row) {
+				if ($row[$key] === $val) {
+					$_result = true;
+				}
+			}
+			return $_result;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Counts the number of items per column or for all columns
 	 * 
@@ -445,7 +449,8 @@ class Fllat
 	 */
 	function last($col)
 	{
-		return end($this -> select((array) $col))[$col];
+		$_values = $this -> select((array) $col);
+		return end($_values)[$col];
 	}
 
 }

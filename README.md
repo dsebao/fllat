@@ -16,7 +16,7 @@ Simply pull this git repository or [download the archive](https://github.com/alf
 ### Accessing Fllat
 To access Fllat from any PHP file, `require` the `fllat.php` file:
 ```php
-require("fllat.php");
+require "fllat.php";
 ```
 
 Now it's time to create and initialize a new database. This is used even if the database exists.

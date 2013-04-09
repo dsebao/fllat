@@ -9,6 +9,10 @@ Feel free to test it out somewhat on the [demo page](http://fllat.lfred.info). W
 
 The awesomest part is that there are **no running services**, just pure PHP at work.
 
+## Documentation
+
+**For a guide to all of the functions, use [this wiki page](https://github.com/alfredxing/fllat/wiki/Functions).**
+
 ## Getting started
 
 Simply pull this git repository or [download the archive](https://github.com/alfredxing/fllat/zipball/master) and run it on a PHP-enabled server.
@@ -76,7 +80,6 @@ $pie -> select(array("name"));  // Returns [["smoothie"],["cookie"],["bacon"]]
 
 Fllat is *extremely* flexibile. Perhaps too much so; it will `json_encode` any data you give it and store it, regardless of what format it's in. This ***will*** cause some errors when retrieving data, so be careful!
 
-**Now you're ready to go! For a guide to all of the functions (like everything else, still under development), use [this wiki page](https://github.com/alfredxing/fllat/wiki/Functions).**
 
 ## Contributing
 
@@ -86,6 +89,9 @@ Feel free to contribute by creating issues (search to see if the same issue has 
 
 ### Build status
 [![Build Status](https://travis-ci.org/fllat/fllat.png?branch=master)](https://travis-ci.org/fllat/fllat)
+
+### Version
+Fllat is currently at version `0.1.0`.
 
 ### License
 

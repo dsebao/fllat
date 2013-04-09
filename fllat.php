@@ -9,6 +9,7 @@
  * @author    Alfred Xing <xing@lfred.info>
  * @copyright 2013 Alfred Xing
  * @license   LICENSE.md MIT License
+ * @version   0.1
  * 
  */
 
@@ -102,7 +103,7 @@ class Fllat
 	 * 
 	 * @return array
 	 */
-	function get($col,$key,$val)
+	function get($col, $key, $val)
 	{
 		$_old = file_get_contents($this -> file);
 		if ($_old) {
@@ -253,7 +254,7 @@ class Fllat
 	 * 
 	 * @return array
 	 */
-	function like($cols,$key,$regex)
+	function like($cols, $key, $regex)
 	{
 		$_old = file_get_contents($this -> file);
 		if ($_old) {
@@ -394,7 +395,7 @@ class Fllat
 	 * 
 	 * @return boolean whether the pair exists
 	 */
-	function exists($key,$val)
+	function exists($key, $val)
 	{
 		$_old = file_get_contents($this -> file);
 		if ($_old) {

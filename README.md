@@ -85,7 +85,7 @@ Feel free to contribute by creating issues (search to see if the same issue has 
 ## Meta
 
 ### Build status
-[![Build Status](https://travis-ci.org/alfredxing/fllat.png?branch=master)](https://travis-ci.org/alfredxing/fllat)
+[![Build Status](https://travis-ci.org/fllat/fllat.png?branch=master)](https://travis-ci.org/fllat/fllat)
 
 ### License
 

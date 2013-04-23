@@ -55,7 +55,7 @@ class Fllat
 	 * 
 	 * @return string
 	 */
-	function rm()
+	function del()
 	{
 		if (file_exists($this -> file)) {
 			unlink($this -> file);
@@ -93,6 +93,22 @@ class Fllat
 		$this -> rw($_db);
 	}
 
+	/**
+	 * Remove a row from the database
+	 * 
+	 * @param  integer $index the index of the row to remove
+	 */
+	function rm($index) {
+		$_old = file_get_contents($this -> file);
+		if ($_old) {
+			$_db = json_decode(file_get_contents($this -> file), true);
+		} else {
+			$_db = array();
+		};
+		array_splice($_db, $index, 1);
+		$this -> rw($_db);
+	}
+
 
 	/**
 	 * Get the row where the value matches that of the key and return the value of the other key
@@ -108,7 +124,7 @@ class Fllat
 		$_old = file_get_contents($this -> file);
 		if ($_old) {
 			$_db = json_decode($_old, true);
-			foreach ($_db as $row) {
+			foreach ($_db as $index => $row) {
 				if ($row[$key] === $val && $row[$col]) {
 					return $row[$col];
 					break;
@@ -134,22 +150,22 @@ class Fllat
 			$_result = array();
 			$_values = array();
 			if ($cols === array()) {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					foreach (array_keys($row) as $c) {
 						$_values[$c] = $row[$c];
 					};
 					if ($_values)
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 					$_values = array();
 				}
 			} else {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					foreach ((array) $cols as $c) {
 						if ($row[$c])
 							$_values[$c] = $row[$c];
 					};
 					if ($_values)
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 					$_values = array();
 				}
 			}
@@ -176,22 +192,22 @@ class Fllat
 			$_result = array();
 			$_values = array();
 			if ($cols === array()) {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if ($row[$key] === $val) {
 						foreach (array_keys($row) as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					}
 				}
 			} else {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if ($row[$key] === $val) {
 						foreach ((array) $cols as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					};
 				}
@@ -219,22 +235,22 @@ class Fllat
 			$_result = array();
 			$_values = array();
 			if ($cols === array()) {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if (in_array($row[$key], $val)) {
 						foreach (array_keys($row) as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					}
 				}
 			} else {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if (in_array($row[$key], $val)) {
 						foreach ((array) $cols as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					};
 				}
@@ -262,22 +278,22 @@ class Fllat
 			$_result = array();
 			$_values = array();
 			if ($cols === array()) {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if (preg_match($regex, $row[$key])) {
 						foreach (array_keys($row) as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					}
 				}
 			} else {
-				foreach ($_db as $row) {
+				foreach ($_db as $index => $row) {
 					if (preg_match($regex, $row[$key])) {
 						foreach ((array) $cols as $c) {
 							$_values[$c] = $row[$c];
 						};
-						$_result[] = $_values;
+						$_result[$index] = $_values;
 						$_values = array();
 					};
 				}
@@ -401,7 +417,7 @@ class Fllat
 		if ($_old) {
 			$_db = json_decode($_old, true);
 			$_result = false;
-			foreach ($_db as $row) {
+			foreach ($_db as $index => $row) {
 				if ($row[$key] === $val) {
 					$_result = true;
 				}

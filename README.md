@@ -95,4 +95,4 @@ Fllat is currently at version `0.1.0`.
 
 ### License
 
-Fllat is licensed for use under the terms stated in the [LICENSE.md](https://raw.github.com/alfredxing/fllat/master/LICENSE.md) file.
+Fllat is licensed for use under the terms stated in the [LICENSE.md](https://raw.github.com/wylst/fllat/master/LICENSE.md) file.
